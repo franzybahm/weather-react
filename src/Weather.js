@@ -2,6 +2,7 @@ import React from "react";
 import "./styles.css";
 
 import FormattedDate from "./FormattedDate.js";
+import Temperature from "./Temperature";
 
 export default function Weather(props) {
   if (props.loaded) {
@@ -15,7 +16,7 @@ export default function Weather(props) {
             </div>
             <div class="col-4">
               <h2 id="current-city">{props.weatherInfo.cityName}</h2>
-              <h1 id="current-temp">{Math.round(props.weatherInfo.temp)}°C</h1>
+              <Temperature celcius={props.weatherInfo.temp} />
             </div>
             <div class="col-4">
               <h3 id="current-time">
