@@ -9,47 +9,35 @@ export default function Search() {
   function updateCity(event) {
     setCity(event.target.value);
   }
-  let [temp, setTemp] = useState(null);
-  function showTemp(response) {
-    setTemp(response.data.main.temp);
-  }
-
-  let [humidity, setHumidity] = useState(null);
-  function showHumidity(response) {
-    setHumidity(response.data.main.humidity);
-  }
-
-  let [wind, setWind] = useState(null);
-  function showWind(response) {
-    setWind(response.data.wind.speed);
-  }
-
-  let [icon, setIcon] = useState(null);
-  function showIcon(response) {
-    setIcon(response.data.weather[0].icon);
-  }
-
+  
   let [loaded, setLoaded] = useState(false);
-  function displayWeather(response) {
+  function displayWeather() {
     setLoaded(true);
   }
 
-  let [desc, setDesc] = useState(null);
-  function showDesc(response) {
-    setDesc(response.data.weather[0].description);
+  let [weatherInfo, setWeatherInfo] = useState("");
+  function responseData(response){
+    setWeatherInfo(
+      {
+        cityName: response.data.name,
+        temp: response.data.main.temp,
+        humidity: response.data.main.humidity,
+        wind: response.data.wind.speed,
+        icon: response.data.weather[0].icon,
+        desc: response.data.weather[0].description,
+        date: new Date(response.data.dt * 1000),
+      }
+    );
   }
 
+  
   function handleSubmit(event) {
     event.preventDefault();
     let apiKey = "cf1b1343a7207aa60910085fc2251ee5";
     let units = "metric";
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
-    axios.get(apiUrl).then(displayWeather);
-    axios.get(apiUrl).then(showTemp);
-    axios.get(apiUrl).then(showHumidity);
-    axios.get(apiUrl).then(showWind);
-    axios.get(apiUrl).then(showIcon);
-    axios.get(apiUrl).then(showDesc);
+    axios.get(apiUrl).then(responseData);
+    displayWeather();
   }
 
   return (
@@ -85,12 +73,7 @@ export default function Search() {
       </div>
       <Weather
         loaded={loaded}
-        city={city}
-        humidity={humidity}
-        wind={wind}
-        temp={temp}
-        icon={icon}
-        desc={desc}
+        weatherInfo={weatherInfo}
       />
     </div>
   );
