@@ -20,7 +20,7 @@ export default function Weather(props) {
             </div>
             <div class="col-4">
               <h3 id="current-time">
-                <FormattedDate date={props.weatherInfo.date} />
+                {/*<FormattedDate date={props.weatherInfo.date} />*/}
               </h3>
               <p class="info" id="description">
                 {props.weatherInfo.desc}
